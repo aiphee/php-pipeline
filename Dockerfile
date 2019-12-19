@@ -1,4 +1,4 @@
-FROM php:7.1-cli-alpine3.7
+FROM php:7.3-cli-alpine
 
 RUN apk update
 RUN apk add --no-cache openssh unzip git mysql-client
