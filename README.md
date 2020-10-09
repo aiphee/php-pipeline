@@ -1,5 +1,5 @@
 Jednoduchá Image s PHP + ext a mysql klientem. 
-Vytvořen hlavně aby se pokaždé nekomipilovali php ext.
+Vytvořen hlavně aby se pokaždé nekomipilovaly php ext.
 
 Potřeba pro bitbucket-pipelines aby běžela aplikace z konzole
 
