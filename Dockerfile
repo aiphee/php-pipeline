@@ -10,7 +10,6 @@ RUN apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-
 	curl \
 	git \
 	unzip \
-	openssh \
 	mysql-client
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
