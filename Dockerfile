@@ -5,6 +5,5 @@ RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.o
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 RUN apk add --no-cache openssh unzip git mysql-client libpng libpng-dev jpeg-dev libjpeg-turbo libjpeg-turbo-dev
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j "$(nproc)" mbstring mysqli pdo pdo_mysql gd
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
