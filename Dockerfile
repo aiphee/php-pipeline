@@ -1,22 +1,23 @@
-FROM php:7.3-cli-alpine
+FROM php:7.3-fpm
 
-RUN apk update
-RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+# Replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN apk --no-cache update \
-    && apk --no-cache upgrade \
-    && apk add --no-cache $PHPIZE_DEPS \
-        freetype-dev \
-        libjpeg-turbo-dev \
-	mysql-client \
-	openssh \
+# make sure apt is up to date
+RUN apt-get update --fix-missing
+RUN apt-get install -y 
+RUN apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev \
+	curl \
 	git \
 	unzip \
-        libpng-dev && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ && \
-    docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gd && \
+	openssh \
+	mysql-client
 
-RUN docker-php-ext-install -j "$(nproc)" mbstring mysqli pdo pdo_mysql
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd 
+
+RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN usermod -u 1000 www-data
